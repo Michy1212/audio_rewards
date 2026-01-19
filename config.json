@@ -1,0 +1,28 @@
+{
+    "cost_mapping": {
+        "1": {
+            "cost_text": "100 fragments du bonheur",
+            "image": "fragments.png",
+            "color": "#4CAF50"
+        },
+        "2": {
+            "cost_text": "250 fragments du bonheur",
+            "image": "fragments.png",
+            "color": "#2196F3"
+        },
+        "3": {
+            "cost_text": "500 fragments du bonheur",
+            "image": "fragments.png",
+            "color": "#FF9800"
+        },
+        "4": {
+            "cost_text": "1000 fragments du bonheur",
+            "image": "fragments.png",
+            "color": "#F44336"
+        }
+    },
+    "channel_name": "Le Retroscope",
+    "channel_url": "https://twitch.tv/leretroscope",
+    "github_repo": "https://github.com/votrecompte/leretroscope-sounds",
+    "audio_folder": "./audio"
+}

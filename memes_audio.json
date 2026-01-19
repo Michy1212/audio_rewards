@@ -1,0 +1,299 @@
+{
+	"moments later": {
+		"source" : "A few moments later",
+		"file" : "A few Moments later",
+		"length" : 3,
+		"cost" : 1,
+		"variations" : ["moment later"]
+	},
+	"c'est bien Nils": {
+		"source" : "Ah bah c'est bien Nils",
+		"file" : "Ah bah c'est bien Nils, super pour l'appareil photo !",
+		"length" : 3,
+		"cost" : 1,
+		"variations" : ["Nils"]
+	},
+	"que nenni": {
+		"source" : "Ahhh, que nenni",
+		"file" : "Ahhh, que nenni !",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["nenni"]
+	},
+	"allons-y": {
+		"source" : "Allons-y Alonso",
+		"file" : "Allons-y Alonso",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["alonso", "allons y"]
+	},
+	"bad joke": {
+		"source" : "Bad Joke Drum Sound",
+		"file" : "Bad Joke Drum Sound",
+		"length" : 2,
+		"cost" : 1
+	},
+	"beauf": {
+		"source" : "Beauf de France",
+		"file" : "Beauf de France",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["beauf de france"]
+	},
+	"perlimpinpin": {
+		"source" : "C'est de la poudre de perlimpinpin",
+		"file" : "C'est de la poudre de perlimpinpin",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["macron poudre"]
+	},
+	"duel": {
+		"source" : "C'est l'heure du duel",
+		"file" : "C'est l'heure du duel",
+		"length" : 3,
+		"cost" : 1
+	},
+	"devise team rocket": {
+		"source" : "Devise de la Team Rocket",
+		"file" : "Devise de la Team Rocket",
+		"length" : 25,
+		"cost" : 4,
+		"variations" : ["guerre"]
+	},
+	"chute": {
+		"source" : "Dingo Chute",
+		"file" : "Dingo Chute",
+		"length" : 3,
+		"cost" : 1
+	},
+	"déjà vu": {
+		"source" : "Deja vu",
+		"file" : "Deja vu",
+		"length" : 6,
+		"cost" : 2
+	},
+	"good english": {
+		"source" : "François Hollande - Discours en anglais aux Philippines",
+		"file" : "François Hollande - Discours en anglais aux Philippines",
+		"length" : 9,
+		"cost" : 2,
+		"variations" : ["hollande"]
+	},
+	"ghostbusters": {
+		"source" : "Ghostbusters (invisible men)",
+		"file" : "Ghostbusters (invisible men)",
+		"length" : 8,
+		"cost" : 2,
+		"variations" : ["sos fantomes"]
+	},
+	"hello": {
+		"source" : "Hello Mario",
+		"file" : "Hello Mario",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["hello mario"]
+	},
+	"here we go": {
+		"source" : "Here We Go !",
+		"file" : "Here We Go !",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["here we go mario"]
+	},
+	"quelqu'un": {
+		"source" : "Il y a quelqu'un - Non y a personne",
+		"file" : "Il y a quelqu'un - Non y a personne",
+		"length" : 4,
+		"cost" : 1
+	},
+	"issou": {
+		"source" : "Issou",
+		"file" : "Issou",
+		"length" : 3,
+		"cost" : 1,
+		"variations" : ["risitas", "el risitas"]
+	},
+	"ok": {
+		"source" : "Jacouille OK",
+		"file" : "Jacouille OK",
+		"length" : 1,
+		"cost" : 1
+	},
+	"david goodenough": {
+		"source" : "JDG - David Goodenough",
+		"file" : "JDG - David Goodenough",
+		"length" : 6,
+		"cost" : 2,
+		"variations" : ["goodenough", "c'est pas si mal"]
+	},
+	"ils l'ont eu": {
+		"source" : "JDG - Ils l'ont eu !!!",
+		"file" : "JDG - Ils l'ont eu !!!",
+		"length" : 12,
+		"cost" : 3
+	},
+	"méchant": {
+		"source" : "JDG - Le méchant !",
+		"file" : "JDG - Le méchant !",
+		"length" : 4,
+		"cost" : 1,
+		"variations" : ["le méchant"]
+	},
+	"bonne journée": {
+		"source" : "JDG - On va passer une bonne journée",
+		"file" : "JDG - On va passer une bonne journée",
+		"length" : 4,
+		"cost" : 1,
+		"variations" : ["on va passer une bonne journée"]
+	},
+	"souffrir": {
+		"source" : "Je suis pas venue ici pour souffrir OK",
+		"file" : "Je suis pas venue ici pour souffrir OK",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["je suis pas venue pour souffrir ok", "je ne suis pas venue pour souffrir ok"]
+	},
+	"jeanne": {
+		"source" : "Jeanne au secours !! ",
+		"file" : "Jeanne au secours !! ",
+		"length" : 3,
+		"cost" : 1,
+		"variations" : ["au secours", "jeanne au secours"]
+	},
+	"team rocket décolle": {
+		"source" : "La team rocket décolle vers d'autres cieux",
+		"file" : "La team rocket décolle vers d'autres cieux",
+		"length" : 5,
+		"cost" : 1,
+		"variations" : ["team rocket s'envole"]
+	},
+	"le feu ça brule": {
+		"source" : "Le Feu Ça Brûle",
+		"file" : "Le Feu Ça Brûle",
+		"length" : 6,
+		"cost" : 2,
+		"variations" : ["l'eau ça mouille"]
+	},
+	"bye bye": {
+		"source" : "Luigi Bye bye",
+		"file" : "Luigi Bye bye",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["bye"]
+	},
+	"mais c'est de la merde": {
+		"source" : "Mais c'est de la merde",
+		"file" : "Mais c'est de la merde",
+		"length" : 2,
+		"cost" : 1,
+		"variations" : ["c'est de la merde"]
+	},
+	"mais oui c'est clair": {
+		"source" : "Mais oui c'est clair !",
+		"file" : "Mais oui c'est clair !",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["c'est clair"]
+	},
+	"mais t'es pas net": {
+		"source" : "Mais t'es pas net",
+		"file" : "Mais t'es pas net",
+		"length" : 3,
+		"cost" : 1,
+		"variations" : ["pas net"]
+	},
+	"mama": {
+		"source" : "Mama Mario",
+		"file" : "Mama Mario",
+		"length" : 4,
+		"cost" : 1,
+		"variations" : ["mama mario"]
+	},
+	"mamma mia": {
+		"source" : "Mamma Mia Mario",
+		"file" : "Mamma Mia Mario",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["mamma mia mario"]
+	},
+	"mange pas ça": {
+		"source" : "Mange pas ça",
+		"file" : "Mange pas ça",
+		"length" : 1,
+		"cost" : 1
+	},
+	"non": {
+		"source" : "Mario dit non",
+		"file" : "Mario dit non",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["mario non"]
+	},
+	"méfiez-vous": {
+		"source" : "Méfiez-vous",
+		"file" : "Méfiez-vous",
+		"length" : 6,
+		"cost" : 2,
+		"variations" : ["méfiez vous"]
+	},
+	"motus": {
+		"source" : "Motus boule noire",
+		"file" : "Motus boule noire",
+		"length" : 4,
+		"cost" : 1,
+		"variations" : ["boule noire"]
+	},
+	"votre mari est décédé": {
+		"source" : "Palmashow - Votre mari est decédé",
+		"file" : "Palmashow - Votre mari est decédé",
+		"length" : 6,
+		"cost" : 2
+	},
+	"philippe": {
+		"source" : "Philippe ! Je sais où tu te caches ! [Hitman le Cobra]",
+		"file" : "Philippe ! Je sais où tu te caches ! [Hitman le Cobra]",
+		"length" : 6,
+		"cost" : 2
+	},
+	"power rangers": {
+		"source" : "Power Rangers",
+		"file" : "Power Rangers",
+		"length" : 5,
+		"cost" : 1,
+		"variations" : ["power ranger"]
+	},
+	"lumière": {
+		"source" : "Qui a éteint la lumière",
+		"file" : "Qui a éteint la lumière",
+		"length" : 2,
+		"cost" : 1,
+		"variations" : ["qui a éteint la lumière"]
+	},
+	"sad": {
+		"source" : "Sad song meme",
+		"file" : "Sad song meme",
+		"length" : 21,
+		"cost" : 4,
+		"variations" : ["sad song"]
+	},
+	"shooting stars": {
+		"source" : "Shooting Stars",
+		"file" : "Shooting Stars",
+		"length" : 15,
+		"cost" : 3
+	},
+	"gatouille": {
+		"source" : "Voilà il gatouille !",
+		"file" : "Voilà il gatouille !",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["voilà il gatouille"]
+	},
+	"grappin": {
+		"source" : "Le Grappin",
+		"file" : "Le Grappin",
+		"length" : 8,
+		"cost" : 2
+	}
+}
+		
