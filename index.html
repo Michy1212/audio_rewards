@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Récompenses Audio - Le Retroscope</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="fragments.png">
+    <style>
+        :root {
+            --primary-color: #9146FF;
+            --secondary-color: #0e0e10;
+            --accent-color: #bf94ff;
+            --light-color: #f1f1f1;
+            --dark-color: #18181b;
+            --success-color: #4CAF50;
+            --info-color: #2196F3;
+            --warning-color: #FF9800;
+            --danger-color: #F44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--light-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #772ce8 100%);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-decoration {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            opacity: 0.3;
+            font-size: 3rem;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .channel-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 600;
+            background-color: rgba(0,0,0,0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .channel-link:hover {
+            background-color: rgba(0,0,0,0.4);
+            transform: translateY(-3px);
+        }
+        
+        .instructions {
+            background-color: rgba(255,255,255,0.1);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .instructions h2 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        
+        .cost-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .cost-tab {
+            padding: 15px 25px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cost-tab:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+        
+        .cost-tab.active {
+            border-color: var(--accent-color);
+            background-color: rgba(145, 70, 255, 0.2);
+        }
+        
+        .cost-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+        }
+        
+        .sounds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .sound-card {
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sound-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border-color: var(--primary-color);
+        }
+        
+        .sound-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-align: center;
+            word-break: break-word;
+        }
+        
+        .cost-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding: 10px 0;
+            border-radius: 10px;
+            background-color: rgba(0,0,0,0.2);
+        }
+        
+        .cost-display img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+        
+        .cost-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .sound-info {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .sound-length {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        
+        .variations {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255,255,255,0.2);
+        }
+        
+        .variations h4 {
+            color: #aaa;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .variations-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .variation {
+            background-color: rgba(145, 70, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(145, 70, 255, 0.4);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex: 1;
+            font-size: 1rem;
+        }
+        
+        .btn-play {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-play:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+        
+        .btn-copy {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .btn-copy:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+        
+        .btn-copy.copied {
+            background-color: var(--success-color);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .generation-date {
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .channel-link {
+                font-size: 1.1rem;
+                padding: 8px 16px;
+            }
+            
+            .cost-tabs {
+                flex-direction: column;
+            }
+            
+            .cost-tab {
+                padding: 12px 20px;
+            }
+            
+            .sounds-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sound-name {
+                font-size: 1.5rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .sound-card {
+                padding: 20px;
+            }
+            
+            .sound-name {
+                font-size: 1.3rem;
+            }
+            
+            .sounds-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation pour le son en cours de lecture */
+        .playing {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(145, 70, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(145, 70, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(145, 70, 255, 0); }
+        }
+        
+        /* Style pour l'audio caché */
+        .audio-player {
+            display: none;
+        }
+        
+        /* Style pour le compteur de résultats */
+        .results-count {
+            text-align: center;
+            margin: 10px 0 20px 0;
+            color: #aaa;
+            font-style: italic;
+        }
+        
+        /* Style pour aucun résultat */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #aaa;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+        
+        /* Note importante */
+        .important-note {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .important-note h3 {
+            color: #ffc107;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-decoration">
+                <i class="fas fa-music"></i>
+            </div>
+            <h1><i class="fas fa-music"></i> Récompenses Audio</h1>
+            <p>Sons disponibles avec vos fragments du bonheur</p>
+            <a href="https://twitch.tv/leretroscope" class="channel-link" target="_blank">
+                <i class="fab fa-twitch"></i> Le Retroscope
+            </a>
+        </header>
+        
+        <div class="instructions">
+            <h2><i class="fas fa-info-circle"></i> Comment utiliser ces sons ?</h2>
+            <ul>
+                <li>Tous les sons sont disponibles via les <strong>récompenses de chaîne</strong> sur Twitch</li>
+                <li>Utilisez vos <strong>fragments du bonheur</strong> pour déclencher les sons</li>
+                <li>Les variantes permettent de trouver plus facilement le son recherché</li>
+                <li>Cliquez sur <strong>"Écouter"</strong> pour tester un son avant de l'utiliser</li>
+                <li>Cliquez sur <strong>"Copier le nom"</strong> pour copier le nom de la récompense</li>
+            </ul>
+        </div>
+        
+        <div class="important-note">
+            <h3><i class="fas fa-exclamation-circle"></i> Important</h3>
+            <p>Ces sons ne sont PAS des commandes de chat. Ils sont disponibles dans la section 
+            <strong>"Récompenses de chaîne"</strong> de Twitch et s'activent avec vos fragments du bonheur.</p>
+        </div>
+        
+        <div class="cost-tabs" id="costTabs">
+            <!-- Les onglets de coût seront générés dynamiquement -->
+        </div>
+        
+        <div id="soundsContainer" class="sounds-grid">
+            <!-- Les cartes de sons seront générées dynamiquement -->
+        </div>
+        
+        <footer>
+            <p>© 2026 Le Retroscope - Tous droits réservés</p>
+            <p>Les sons sont la propriété de leurs auteurs respectifs.</p>
+            <div class="generation-date">
+                Généré le 19/01/2026 à 18:13
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Lecteur audio caché -->
+    <audio id="globalAudioPlayer" class="audio-player"></audio>
+    
+    <script>
+        // Données des sons
+        const soundsData = {"moments later": {"source": "A few moments later", "file": "A few Moments later", "length": 3, "cost": 1, "variations": ["moment later"]}, "c'est bien Nils": {"source": "Ah bah c'est bien Nils", "file": "Ah bah c'est bien Nils, super pour l'appareil photo !", "length": 3, "cost": 1, "variations": ["Nils"]}, "que nenni": {"source": "Ahhh, que nenni", "file": "Ahhh, que nenni !", "length": 1, "cost": 1, "variations": ["nenni"]}, "allons-y": {"source": "Allons-y Alonso", "file": "Allons-y Alonso", "length": 1, "cost": 1, "variations": ["alonso", "allons y"]}, "bad joke": {"source": "Bad Joke Drum Sound", "file": "Bad Joke Drum Sound", "length": 2, "cost": 1}, "beauf": {"source": "Beauf de France", "file": "Beauf de France", "length": 1, "cost": 1, "variations": ["beauf de france"]}, "perlimpinpin": {"source": "C'est de la poudre de perlimpinpin", "file": "C'est de la poudre de perlimpinpin", "length": 1, "cost": 1, "variations": ["macron poudre"]}, "duel": {"source": "C'est l'heure du duel", "file": "C'est l'heure du duel", "length": 3, "cost": 1}, "devise team rocket": {"source": "Devise de la Team Rocket", "file": "Devise de la Team Rocket", "length": 25, "cost": 4, "variations": ["guerre"]}, "chute": {"source": "Dingo Chute", "file": "Dingo Chute", "length": 3, "cost": 1}, "déjà vu": {"source": "Deja vu", "file": "Deja vu", "length": 6, "cost": 2}, "good english": {"source": "François Hollande - Discours en anglais aux Philippines", "file": "François Hollande - Discours en anglais aux Philippines", "length": 9, "cost": 2, "variations": ["hollande"]}, "ghostbusters": {"source": "Ghostbusters (invisible men)", "file": "Ghostbusters (invisible men)", "length": 8, "cost": 2, "variations": ["sos fantomes"]}, "hello": {"source": "Hello Mario", "file": "Hello Mario", "length": 1, "cost": 1, "variations": ["hello mario"]}, "here we go": {"source": "Here We Go !", "file": "Here We Go !", "length": 1, "cost": 1, "variations": ["here we go mario"]}, "quelqu'un": {"source": "Il y a quelqu'un - Non y a personne", "file": "Il y a quelqu'un - Non y a personne", "length": 4, "cost": 1}, "issou": {"source": "Issou", "file": "Issou", "length": 3, "cost": 1, "variations": ["risitas", "el risitas"]}, "ok": {"source": "Jacouille OK", "file": "Jacouille OK", "length": 1, "cost": 1}, "david goodenough": {"source": "JDG - David Goodenough", "file": "JDG - David Goodenough", "length": 6, "cost": 2, "variations": ["goodenough", "c'est pas si mal"]}, "ils l'ont eu": {"source": "JDG - Ils l'ont eu !!!", "file": "JDG - Ils l'ont eu !!!", "length": 12, "cost": 3}, "méchant": {"source": "JDG - Le méchant !", "file": "JDG - Le méchant !", "length": 4, "cost": 1, "variations": ["le méchant"]}, "bonne journée": {"source": "JDG - On va passer une bonne journée", "file": "JDG - On va passer une bonne journée", "length": 4, "cost": 1, "variations": ["on va passer une bonne journée"]}, "souffrir": {"source": "Je suis pas venue ici pour souffrir OK", "file": "Je suis pas venue ici pour souffrir OK", "length": 1, "cost": 1, "variations": ["je suis pas venue pour souffrir ok", "je ne suis pas venue pour souffrir ok"]}, "jeanne": {"source": "Jeanne au secours !! ", "file": "Jeanne au secours !! ", "length": 3, "cost": 1, "variations": ["au secours", "jeanne au secours"]}, "team rocket décolle": {"source": "La team rocket décolle vers d'autres cieux", "file": "La team rocket décolle vers d'autres cieux", "length": 5, "cost": 1, "variations": ["team rocket s'envole"]}, "le feu ça brule": {"source": "Le Feu Ça Brûle", "file": "Le Feu Ça Brûle", "length": 6, "cost": 2, "variations": ["l'eau ça mouille"]}, "bye bye": {"source": "Luigi Bye bye", "file": "Luigi Bye bye", "length": 1, "cost": 1, "variations": ["bye"]}, "mais c'est de la merde": {"source": "Mais c'est de la merde", "file": "Mais c'est de la merde", "length": 2, "cost": 1, "variations": ["c'est de la merde"]}, "mais oui c'est clair": {"source": "Mais oui c'est clair !", "file": "Mais oui c'est clair !", "length": 1, "cost": 1, "variations": ["c'est clair"]}, "mais t'es pas net": {"source": "Mais t'es pas net", "file": "Mais t'es pas net", "length": 3, "cost": 1, "variations": ["pas net"]}, "mama": {"source": "Mama Mario", "file": "Mama Mario", "length": 4, "cost": 1, "variations": ["mama mario"]}, "mamma mia": {"source": "Mamma Mia Mario", "file": "Mamma Mia Mario", "length": 1, "cost": 1, "variations": ["mamma mia mario"]}, "mange pas ça": {"source": "Mange pas ça", "file": "Mange pas ça", "length": 1, "cost": 1}, "non": {"source": "Mario dit non", "file": "Mario dit non", "length": 1, "cost": 1, "variations": ["mario non"]}, "méfiez-vous": {"source": "Méfiez-vous", "file": "Méfiez-vous", "length": 6, "cost": 2, "variations": ["méfiez vous"]}, "motus": {"source": "Motus boule noire", "file": "Motus boule noire", "length": 4, "cost": 1, "variations": ["boule noire"]}, "votre mari est décédé": {"source": "Palmashow - Votre mari est decédé", "file": "Palmashow - Votre mari est decédé", "length": 6, "cost": 2}, "philippe": {"source": "Philippe ! Je sais où tu te caches ! [Hitman le Cobra]", "file": "Philippe ! Je sais où tu te caches ! [Hitman le Cobra]", "length": 6, "cost": 2}, "power rangers": {"source": "Power Rangers", "file": "Power Rangers", "length": 5, "cost": 1, "variations": ["power ranger"]}, "lumière": {"source": "Qui a éteint la lumière", "file": "Qui a éteint la lumière", "length": 2, "cost": 1, "variations": ["qui a éteint la lumière"]}, "sad": {"source": "Sad song meme", "file": "Sad song meme", "length": 21, "cost": 4, "variations": ["sad song"]}, "shooting stars": {"source": "Shooting Stars", "file": "Shooting Stars", "length": 15, "cost": 3}, "gatouille": {"source": "Voilà il gatouille !", "file": "Voilà il gatouille !", "length": 1, "cost": 1, "variations": ["voilà il gatouille"]}, "grappin": {"source": "Le Grappin", "file": "Le Grappin", "length": 8, "cost": 2}};
+        
+        // Configuration des coûts
+        const costConfig = {"1": {"cost_text": "100 fragments du bonheur", "image": "fragments.png", "color": "#4CAF50"}, "2": {"cost_text": "250 fragments du bonheur", "image": "fragments.png", "color": "#2196F3"}, "3": {"cost_text": "500 fragments du bonheur", "image": "fragments.png", "color": "#FF9800"}, "4": {"cost_text": "1000 fragments du bonheur", "image": "fragments.png", "color": "#F44336"}};
+        
+        // État de l'application
+        let currentCostFilter = 'all';
+        let currentAudio = null;
+        let allSounds = [];
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            initCostTabs();
+            renderAllSounds();
+            setupAudioPlayer();
+        });
+        
+        // Initialiser les onglets de coût
+        function initCostTabs() {
+            const costTabsContainer = document.getElementById('costTabs');
+            
+            // Onglet "Tous"
+            const allTab = document.createElement('div');
+            allTab.className = 'cost-tab active';
+            allTab.id = 'tab-all';
+            allTab.innerHTML = '<i class="fas fa-globe"></i> Toutes les récompenses';
+            allTab.onclick = () => filterByCost('all');
+            costTabsContainer.appendChild(allTab);
+            
+            // Onglets par coût
+            const costs = Object.keys(costConfig).sort((a, b) => parseInt(a) - parseInt(b));
+            
+            costs.forEach(cost => {
+                const config = costConfig[cost];
+                const tab = document.createElement('div');
+                tab.className = 'cost-tab';
+                tab.id = `tab-${cost}`;
+                tab.innerHTML = `
+                    <div class="cost-icon" style="background-color: ${config.color}">${cost}</div>
+                    <span>${config.cost_text}</span>
+                `;
+                tab.onclick = () => filterByCost(cost);
+                costTabsContainer.appendChild(tab);
+            });
+        }
+        
+        // Filtrer par coût
+        function filterByCost(cost) {
+            currentCostFilter = cost;
+            
+            // Mettre à jour l'onglet actif
+            document.querySelectorAll('.cost-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(`tab-${cost}`).classList.add('active');
+            
+            renderSounds();
+        }
+        
+        // Afficher tous les sons (pour initialisation)
+        function renderAllSounds() {
+            allSounds = [];
+            const container = document.getElementById('soundsContainer');
+            container.innerHTML = '';
+            
+            Object.entries(soundsData).forEach(([key, data]) => {
+                allSounds.push({key, data});
+                const card = createSoundCard(key, data);
+                container.appendChild(card);
+            });
+        }
+        
+        // Créer une carte de son
+        function createSoundCard(key, data) {
+            const cost = data.cost || 1;
+            const costInfo = costConfig[cost.toString()] || costConfig["1"];
+            const variations = data.variations || [];
+            
+            const card = document.createElement('div');
+            card.className = 'sound-card';
+            card.id = `sound-${key}`;
+            card.dataset.cost = cost;
+            
+            const variationsHtml = variations.length > 0 
+                ? `
+                    <div class="variations">
+                        <h4><i class="fas fa-code-branch"></i> Variantes :</h4>
+                        <div class="variations-list">
+                            ${variations.map(v => `<span class="variation">${v}</span>`).join('')}
+                        </div>
+                    </div>
+                `
+                : '';
+            
+            card.innerHTML = `
+                <div class="sound-name">${key}</div>
+                <div class="cost-display" style="color: ${costInfo.color}; border: 2px solid ${costInfo.color}20;">
+                    <img src="${costInfo.image}" alt="Fragments du bonheur">
+                    <span class="cost-text">${costInfo.cost_text}</span>
+                </div>
+                <div class="sound-info">
+                    <div class="sound-length">
+                        <i class="fas fa-clock"></i> Durée : ${data.length} seconde${data.length > 1 ? 's' : ''}
+                    </div>
+                    ${variationsHtml}
+                </div>
+                <div class="buttons">
+                    <button class="btn btn-play" onclick="playSound('${key}')">
+                        <i class="fas fa-play"></i> Écouter
+                    </button>
+                    <button class="btn btn-copy" onclick="copyName('${key}')">
+                        <i class="far fa-copy"></i> Copier le nom
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Afficher les sons filtrés
+        function renderSounds() {
+            const container = document.getElementById('soundsContainer');
+            container.innerHTML = '';
+            
+            let hasVisibleSounds = false;
+            
+            allSounds.forEach(({key, data}) => {
+                const cost = data.cost || 1;
+                
+                // Filtrer par coût si nécessaire
+                if (currentCostFilter !== 'all' && currentCostFilter !== cost.toString()) {
+                    return;
+                }
+                
+                const card = createSoundCard(key, data);
+                container.appendChild(card);
+                hasVisibleSounds = true;
+            });
+            
+            // Afficher un message si aucun résultat
+            if (!hasVisibleSounds) {
+                const noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.innerHTML = `
+                    <i class="fas fa-volume-mute" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                    <h3>Aucune récompense trouvée</h3>
+                    <p>Essayez de modifier vos filtres.</p>
+                `;
+                container.appendChild(noResults);
+            }
+        }
+        
+        // Configurer le lecteur audio
+        function setupAudioPlayer() {
+            currentAudio = document.getElementById('globalAudioPlayer');
+            
+            currentAudio.addEventListener('play', function() {
+                // Arrêter l'animation sur toutes les cartes
+                document.querySelectorAll('.sound-card').forEach(card => {
+                    card.classList.remove('playing');
+                });
+                
+                // Démarrer l'animation sur la carte actuelle
+                const currentSound = currentAudio.getAttribute('data-current-sound');
+                if (currentSound) {
+                    const card = document.getElementById(`sound-${currentSound}`);
+                    if (card) card.classList.add('playing');
+                }
+            });
+            
+            currentAudio.addEventListener('ended', function() {
+                // Arrêter l'animation
+                const currentSound = currentAudio.getAttribute('data-current-sound');
+                if (currentSound) {
+                    const card = document.getElementById(`sound-${currentSound}`);
+                    if (card) card.classList.remove('playing');
+                }
+            });
+        }
+        
+        // Jouer un son
+        function playSound(soundKey) {
+            if (!soundsData[soundKey]) return;
+            
+            // Construire le chemin du fichier
+            const fileName = soundsData[soundKey].file;
+            // Nettoyer le nom de fichier
+            const cleanFileName = fileName.replace(/[<>:"/\|?*]/g, '');
+            // Utiliser le chemin relatif
+            const audioPath = `${audio_folder}/${cleanFileName}.mp3`;
+            
+            // Arrêter le son en cours
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            
+            // Jouer le nouveau son
+            currentAudio.src = audioPath;
+            currentAudio.setAttribute('data-current-sound', soundKey);
+            
+            currentAudio.play().catch(e => {
+                console.error("Erreur de lecture audio:", e);
+                // Essayer avec différentes extensions
+                const extensions = ['.mp3', '.wav', '.ogg', '.m4a'];
+                let triedExtensions = [];
+                
+                const tryNextExtension = (index) => {
+                    if (index >= extensions.length) {
+                        alert(`Impossible de lire le fichier audio.\n\nVérifiez que le fichier existe dans le dossier "${audio_folder}".`);
+                        return;
+                    }
+                    
+                    const ext = extensions[index];
+                    triedExtensions.push(ext);
+                    const newPath = audioPath.replace(/\.\w+$/, ext);
+                    
+                    currentAudio.src = newPath;
+                    currentAudio.play().catch(() => {
+                        tryNextExtension(index + 1);
+                    });
+                };
+                
+                tryNextExtension(0);
+            });
+        }
+        
+        // Copier le nom de la récompense
+        function copyName(soundKey) {
+            const name = `${soundKey}`;
+            navigator.clipboard.writeText(name).then(() => {
+                // Feedback visuel
+                const button = document.querySelector(`#sound-${soundKey} .btn-copy`);
+                const originalText = button.innerHTML;
+                
+                button.innerHTML = '<i class="fas fa-check"></i> Copié !';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Erreur lors de la copie:', err);
+                // Fallback pour les anciens navigateurs
+                const textArea = document.createElement('textarea');
+                textArea.value = name;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    const button = document.querySelector(`#sound-${soundKey} .btn-copy`);
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Copié !';
+                    button.classList.add('copied');
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.classList.remove('copied');
+                    }, 2000);
+                } catch (e) {
+                    alert("Impossible de copier dans le presse-papiers. Veuillez copier manuellement: " + name);
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+        
+        // Recherche des sons
+        function searchSounds() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.sound-card');
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                const soundName = card.querySelector('.sound-name').textContent.toLowerCase();
+                const variations = Array.from(card.querySelectorAll('.variation'))
+                    .map(v => v.textContent.toLowerCase());
+                
+                const allText = [soundName, ...variations].join(' ');
+                
+                // Vérifier aussi le filtre de coût
+                const cost = card.dataset.cost;
+                const costFilter = currentCostFilter === 'all' || currentCostFilter === cost.toString();
+                
+                if (allText.includes(searchTerm) && costFilter) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Exposer les fonctions globalement pour le HTML
+        window.playSound = playSound;
+        window.copyName = copyName;
+        window.filterByCost = filterByCost;
+    </script>
+</body>
+</html>
