@@ -453,7 +453,7 @@
             <p>© 2026 Le Retroscope - Tous droits réservés</p>
             <p>Les sons sont la propriété de leurs auteurs respectifs.</p>
             <div class="generation-date">
-                Généré le 19/01/2026 à 18:13
+                Généré le 19/01/2026 à 18:21
             </div>
         </footer>
     </div>
@@ -467,6 +467,9 @@
         
         // Configuration des coûts
         const costConfig = {"1": {"cost_text": "100 fragments du bonheur", "image": "fragments.png", "color": "#4CAF50"}, "2": {"cost_text": "250 fragments du bonheur", "image": "fragments.png", "color": "#2196F3"}, "3": {"cost_text": "500 fragments du bonheur", "image": "fragments.png", "color": "#FF9800"}, "4": {"cost_text": "1000 fragments du bonheur", "image": "fragments.png", "color": "#F44336"}};
+        
+        // Dossier audio
+        const audioFolder = "audio";
         
         // État de l'application
         let currentCostFilter = 'all';
@@ -543,7 +546,7 @@
             
             const card = document.createElement('div');
             card.className = 'sound-card';
-            card.id = `sound-${key}`;
+            card.id = `sound-${key.replace(/[^a-zA-Z0-9]/g, '-')}`;
             card.dataset.cost = cost;
             
             const variationsHtml = variations.length > 0 
@@ -573,7 +576,7 @@
                     <button class="btn btn-play" onclick="playSound('${key}')">
                         <i class="fas fa-play"></i> Écouter
                     </button>
-                    <button class="btn btn-copy" onclick="copyName('${key}')">
+                    <button class="btn btn-copy" onclick="copyName('${key}')" data-sound-name="${key}">
                         <i class="far fa-copy"></i> Copier le nom
                     </button>
                 </div>
@@ -628,7 +631,8 @@
                 // Démarrer l'animation sur la carte actuelle
                 const currentSound = currentAudio.getAttribute('data-current-sound');
                 if (currentSound) {
-                    const card = document.getElementById(`sound-${currentSound}`);
+                    const safeSoundId = currentSound.replace(/[^a-zA-Z0-9]/g, '-');
+                    const card = document.getElementById(`sound-${safeSoundId}`);
                     if (card) card.classList.add('playing');
                 }
             });
@@ -637,7 +641,8 @@
                 // Arrêter l'animation
                 const currentSound = currentAudio.getAttribute('data-current-sound');
                 if (currentSound) {
-                    const card = document.getElementById(`sound-${currentSound}`);
+                    const safeSoundId = currentSound.replace(/[^a-zA-Z0-9]/g, '-');
+                    const card = document.getElementById(`sound-${safeSoundId}`);
                     if (card) card.classList.remove('playing');
                 }
             });
@@ -649,10 +654,12 @@
             
             // Construire le chemin du fichier
             const fileName = soundsData[soundKey].file;
-            // Nettoyer le nom de fichier
-            const cleanFileName = fileName.replace(/[<>:"/\|?*]/g, '');
+            // Nettoyer le nom de fichier pour l'URL
+            const cleanFileName = encodeURIComponent(fileName);
             // Utiliser le chemin relatif
-            const audioPath = `${audio_folder}/${cleanFileName}.mp3`;
+            const audioPath = `${audioFolder}/${cleanFileName}`;
+            
+            console.log('Tentative de lecture:', audioPath);
             
             // Arrêter le son en cours
             if (currentAudio) {
@@ -666,19 +673,19 @@
             
             currentAudio.play().catch(e => {
                 console.error("Erreur de lecture audio:", e);
+                
                 // Essayer avec différentes extensions
-                const extensions = ['.mp3', '.wav', '.ogg', '.m4a'];
-                let triedExtensions = [];
+                const extensions = ['.mp3', '.wav', '.ogg', '.m4a', ''];
                 
                 const tryNextExtension = (index) => {
                     if (index >= extensions.length) {
-                        alert(`Impossible de lire le fichier audio.\n\nVérifiez que le fichier existe dans le dossier "${audio_folder}".`);
+                        alert(`Impossible de lire le fichier audio.\n\nFichier recherché: ${fileName}\nDossier: ${audioFolder}`);
                         return;
                     }
                     
                     const ext = extensions[index];
-                    triedExtensions.push(ext);
-                    const newPath = audioPath.replace(/\.\w+$/, ext);
+                    const newPath = `${audioFolder}/${cleanFileName}${ext}`;
+                    console.log('Essai avec extension:', ext, '->', newPath);
                     
                     currentAudio.src = newPath;
                     currentAudio.play().catch(() => {
@@ -693,66 +700,63 @@
         // Copier le nom de la récompense
         function copyName(soundKey) {
             const name = `${soundKey}`;
-            navigator.clipboard.writeText(name).then(() => {
-                // Feedback visuel
-                const button = document.querySelector(`#sound-${soundKey} .btn-copy`);
-                const originalText = button.innerHTML;
-                
-                button.innerHTML = '<i class="fas fa-check"></i> Copié !';
-                button.classList.add('copied');
-                
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.classList.remove('copied');
-                }, 2000);
-            }).catch(err => {
-                console.error('Erreur lors de la copie:', err);
+            
+            // Méthode moderne avec Clipboard API
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(name).then(() => {
+                    showCopyFeedback(soundKey);
+                }).catch(err => {
+                    console.error('Erreur Clipboard API:', err);
+                    fallbackCopyText(name, soundKey);
+                });
+            } else {
                 // Fallback pour les anciens navigateurs
-                const textArea = document.createElement('textarea');
-                textArea.value = name;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    const button = document.querySelector(`#sound-${soundKey} .btn-copy`);
-                    const originalText = button.innerHTML;
-                    button.innerHTML = '<i class="fas fa-check"></i> Copié !';
-                    button.classList.add('copied');
-                    setTimeout(() => {
-                        button.innerHTML = originalText;
-                        button.classList.remove('copied');
-                    }, 2000);
-                } catch (e) {
-                    alert("Impossible de copier dans le presse-papiers. Veuillez copier manuellement: " + name);
-                }
-                document.body.removeChild(textArea);
-            });
+                fallbackCopyText(name, soundKey);
+            }
         }
         
-        // Recherche des sons
-        function searchSounds() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.sound-card');
-            let visibleCount = 0;
+        // Fallback pour copier le texte
+        function fallbackCopyText(text, soundKey) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
             
-            cards.forEach(card => {
-                const soundName = card.querySelector('.sound-name').textContent.toLowerCase();
-                const variations = Array.from(card.querySelectorAll('.variation'))
-                    .map(v => v.textContent.toLowerCase());
-                
-                const allText = [soundName, ...variations].join(' ');
-                
-                // Vérifier aussi le filtre de coût
-                const cost = card.dataset.cost;
-                const costFilter = currentCostFilter === 'all' || currentCostFilter === cost.toString();
-                
-                if (allText.includes(searchTerm) && costFilter) {
-                    card.style.display = 'block';
-                    visibleCount++;
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopyFeedback(soundKey);
                 } else {
-                    card.style.display = 'none';
+                    alert("Impossible de copier. Veuillez copier manuellement: " + text);
                 }
-            });
+            } catch (err) {
+                console.error('Erreur fallback copy:', err);
+                alert("Impossible de copier. Veuillez copier manuellement: " + text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // Afficher le feedback de copie
+        function showCopyFeedback(soundKey) {
+            const safeSoundId = soundKey.replace(/[^a-zA-Z0-9]/g, '-');
+            const button = document.querySelector(`#sound-${safeSoundId} .btn-copy`);
+            if (!button) return;
+            
+            const originalText = button.innerHTML;
+            const originalClass = button.className;
+            
+            button.innerHTML = '<i class="fas fa-check"></i> Copié !';
+            button.className = originalClass + ' copied';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.className = originalClass;
+            }, 2000);
         }
         
         // Exposer les fonctions globalement pour le HTML
