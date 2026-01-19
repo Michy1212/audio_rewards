@@ -435,6 +435,36 @@
             color: var(--accent-color);
             margin-bottom: 15px;
         }
+        
+        .sort-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .sort-btn {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .sort-btn:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .sort-btn.active {
+            background-color: var(--primary-color);
+        }
     </style>
 </head>
 <body>
@@ -455,7 +485,17 @@
                 <li>Cliquez sur <strong>"Écouter"</strong> pour tester un son</li>
                 <li>Cliquez sur <strong>"Copier le nom"</strong> pour copier le nom de la récompense</li>
                 <li>Le <strong>contour coloré</strong> indique le coût en fragments</li>
+                <li>Les sons sont triés par ordre <strong>alphabétique</strong> par défaut</li>
             </ul>
+        </div>
+        
+        <div class="sort-controls">
+            <button class="sort-btn active" onclick="sortSounds('alphabetical')">
+                <i class="fas fa-sort-alpha-down"></i> Alphabétique
+            </button>
+            <button class="sort-btn" onclick="sortSounds('cost')">
+                <i class="fas fa-sort-numeric-down"></i> Par coût
+            </button>
         </div>
         
         <div class="cost-tabs" id="costTabs"></div>
@@ -465,7 +505,7 @@
         <footer>
             <p>© 2026 Le Retroscope</p>
             <div class="generation-date">
-                Généré le 19/01/2026 à 19:08
+                Généré le 19/01/2026 à 19:18
             </div>
         </footer>
     </div>
@@ -476,16 +516,17 @@
     <div class="debug-panel" id="debugPanel"></div>
     
     <script>
-        // Données des sons avec fichiers normalisés
-        const soundsData = {"moments later": {"file": "A few Moments later.mp3", "cost": 1, "length": 3, "variations": ["moment later"]}, "c'est bien Nils": {"file": "Ah bah c'est bien Nils super pour l'appareil photo.mp3", "cost": 1, "length": 3, "variations": ["Nils"]}, "que nenni": {"file": "Ahhh que nenni.mp3", "cost": 1, "length": 1, "variations": ["nenni"]}, "allons-y": {"file": "Allons-y Alonso.mp3", "cost": 1, "length": 1, "variations": ["alonso", "allons y"]}, "bad joke": {"file": "Bad Joke Drum Sound.mp3", "cost": 1, "length": 2, "variations": []}, "beauf": {"file": "Beauf de France.mp3", "cost": 1, "length": 1, "variations": ["beauf de france"]}, "perlimpinpin": {"file": "C'est de la poudre de perlimpinpin.mp3", "cost": 1, "length": 1, "variations": ["macron poudre"]}, "duel": {"file": "C'est l'heure du duel.mp3", "cost": 1, "length": 3, "variations": []}, "devise team rocket": {"file": "Devise de la Team Rocket.mp3", "cost": 4, "length": 25, "variations": ["guerre"]}, "chute": {"file": "Dingo Chute.mp3", "cost": 1, "length": 3, "variations": []}, "déjà vu": {"file": "Deja vu.mp3", "cost": 2, "length": 6, "variations": []}, "good english": {"file": "François Hollande - Discours en anglais aux Philippines.mp3", "cost": 2, "length": 9, "variations": ["hollande"]}, "ghostbusters": {"file": "Ghostbusters invisible men.mp3", "cost": 2, "length": 8, "variations": ["sos fantomes"]}, "hello": {"file": "Hello Mario.mp3", "cost": 1, "length": 1, "variations": ["hello mario"]}, "here we go": {"file": "Here We Go.mp3", "cost": 1, "length": 1, "variations": ["here we go mario"]}, "quelqu'un": {"file": "Il y a quelqu'un - Non y a personne.mp3", "cost": 1, "length": 4, "variations": []}, "issou": {"file": "Issou.mp3", "cost": 1, "length": 3, "variations": ["risitas", "el risitas"]}, "ok": {"file": "Jacouille OK.mp3", "cost": 1, "length": 1, "variations": []}, "david goodenough": {"file": "JDG - David Goodenough.mp3", "cost": 2, "length": 6, "variations": ["goodenough", "c'est pas si mal"]}, "ils l'ont eu": {"file": "JDG - Ils l'ont eu.mp3", "cost": 3, "length": 12, "variations": []}, "méchant": {"file": "JDG - Le méchant.mp3", "cost": 1, "length": 4, "variations": ["le méchant"]}, "bonne journée": {"file": "JDG - On va passer une bonne journée.mp3", "cost": 1, "length": 4, "variations": ["on va passer une bonne journée"]}, "souffrir": {"file": "Je suis pas venue ici pour souffrir OK.mp3", "cost": 1, "length": 1, "variations": ["je suis pas venue pour souffrir ok", "je ne suis pas venue pour souffrir ok"]}, "jeanne": {"file": "Jeanne au secours.mp3", "cost": 1, "length": 3, "variations": ["au secours", "jeanne au secours"]}, "team rocket décolle": {"file": "La team rocket décolle vers d'autres cieux.mp3", "cost": 1, "length": 5, "variations": ["team rocket s'envole"]}, "le feu ça brule": {"file": "Le Feu Ça Brûle.mp3", "cost": 2, "length": 6, "variations": ["l'eau ça mouille"]}, "bye bye": {"file": "Luigi Bye bye.mp3", "cost": 1, "length": 1, "variations": ["bye"]}, "mais c'est de la merde": {"file": "Mais c'est de la merde.mp3", "cost": 1, "length": 2, "variations": ["c'est de la merde"]}, "mais oui c'est clair": {"file": "Mais oui c'est clair.mp3", "cost": 1, "length": 1, "variations": ["c'est clair"]}, "mais t'es pas net": {"file": "Mais t'es pas net.mp3", "cost": 1, "length": 3, "variations": ["pas net"]}, "mama": {"file": "Mama Mario.mp3", "cost": 1, "length": 4, "variations": ["mama mario"]}, "mamma mia": {"file": "Mamma Mia Mario.mp3", "cost": 1, "length": 1, "variations": ["mamma mia mario"]}, "mange pas ça": {"file": "Mange pas ça.mp3", "cost": 1, "length": 1, "variations": []}, "non": {"file": "Mario dit non.mp3", "cost": 1, "length": 1, "variations": ["mario non"]}, "méfiez-vous": {"file": "Méfiez-vous.mp3", "cost": 2, "length": 6, "variations": ["méfiez vous"]}, "motus": {"file": "Motus boule noire.mp3", "cost": 1, "length": 4, "variations": ["boule noire"]}, "votre mari est décédé": {"file": "Palmashow - Votre mari est decédé.mp3", "cost": 2, "length": 6, "variations": []}, "philippe": {"file": "Philippe Je sais où tu te caches Hitman le Cobra.mp3", "cost": 2, "length": 6, "variations": []}, "power rangers": {"file": "Power Rangers.mp3", "cost": 1, "length": 5, "variations": ["power ranger"]}, "lumière": {"file": "Qui a éteint la lumière.mp3", "cost": 1, "length": 2, "variations": ["qui a éteint la lumière"]}, "sad": {"file": "Sad song meme.mp3", "cost": 4, "length": 21, "variations": ["sad song"]}, "shooting stars": {"file": "Shooting Stars.mp3", "cost": 3, "length": 15, "variations": []}, "gatouille": {"file": "Voilà il gatouille.mp3", "cost": 1, "length": 1, "variations": ["voilà il gatouille"]}, "grappin": {"file": "Le Grappin.mp3", "cost": 2, "length": 8, "variations": []}};
+        // Données des sons avec fichiers normalisés (déjà triées alphabétiquement côté Python)
+        const soundsData = {"allons-y": {"file": "Allons-y Alonso.mp3", "cost": 1, "length": 1, "variations": ["alonso", "allons y"]}, "bad joke": {"file": "Bad Joke Drum Sound.mp3", "cost": 1, "length": 2, "variations": []}, "beauf": {"file": "Beauf de France.mp3", "cost": 1, "length": 1, "variations": ["beauf de france"]}, "bonne journée": {"file": "JDG - On va passer une bonne journée.mp3", "cost": 1, "length": 4, "variations": ["on va passer une bonne journée"]}, "bye bye": {"file": "Luigi Bye bye.mp3", "cost": 1, "length": 1, "variations": ["bye"]}, "c'est bien Nils": {"file": "Ah bah c'est bien Nils super pour l'appareil photo.mp3", "cost": 1, "length": 3, "variations": ["Nils"]}, "chute": {"file": "Dingo Chute.mp3", "cost": 1, "length": 3, "variations": []}, "david goodenough": {"file": "JDG - David Goodenough.mp3", "cost": 2, "length": 6, "variations": ["goodenough", "c'est pas si mal"]}, "devise team rocket": {"file": "Devise de la Team Rocket.mp3", "cost": 4, "length": 25, "variations": ["guerre"]}, "duel": {"file": "C'est l'heure du duel.mp3", "cost": 1, "length": 3, "variations": []}, "déjà vu": {"file": "Deja vu.mp3", "cost": 2, "length": 6, "variations": []}, "gatouille": {"file": "Voilà il gatouille.mp3", "cost": 1, "length": 1, "variations": ["voilà il gatouille"]}, "ghostbusters": {"file": "Ghostbusters invisible men.mp3", "cost": 2, "length": 8, "variations": ["sos fantomes"]}, "good english": {"file": "François Hollande - Discours en anglais aux Philippines.mp3", "cost": 2, "length": 9, "variations": ["hollande"]}, "grappin": {"file": "Le Grappin.mp3", "cost": 2, "length": 8, "variations": []}, "hello": {"file": "Hello Mario.mp3", "cost": 1, "length": 1, "variations": ["hello mario"]}, "here we go": {"file": "Here We Go.mp3", "cost": 1, "length": 1, "variations": ["here we go mario"]}, "ils l'ont eu": {"file": "JDG - Ils l'ont eu.mp3", "cost": 3, "length": 12, "variations": []}, "issou": {"file": "Issou.mp3", "cost": 1, "length": 3, "variations": ["risitas", "el risitas"]}, "jeanne": {"file": "Jeanne au secours.mp3", "cost": 1, "length": 3, "variations": ["au secours", "jeanne au secours"]}, "le feu ça brule": {"file": "Le Feu Ça Brûle.mp3", "cost": 2, "length": 6, "variations": ["l'eau ça mouille"]}, "lumière": {"file": "Qui a éteint la lumière.mp3", "cost": 1, "length": 2, "variations": ["qui a éteint la lumière"]}, "mais c'est de la merde": {"file": "Mais c'est de la merde.mp3", "cost": 1, "length": 2, "variations": ["c'est de la merde"]}, "mais oui c'est clair": {"file": "Mais oui c'est clair.mp3", "cost": 1, "length": 1, "variations": ["c'est clair"]}, "mais t'es pas net": {"file": "Mais t'es pas net.mp3", "cost": 1, "length": 3, "variations": ["pas net"]}, "mama": {"file": "Mama Mario.mp3", "cost": 1, "length": 4, "variations": ["mama mario"]}, "mamma mia": {"file": "Mamma Mia Mario.mp3", "cost": 1, "length": 1, "variations": ["mamma mia mario"]}, "mange pas ça": {"file": "Mange pas ça.mp3", "cost": 1, "length": 1, "variations": []}, "moments later": {"file": "A few Moments later.mp3", "cost": 1, "length": 3, "variations": ["moment later"]}, "motus": {"file": "Motus boule noire.mp3", "cost": 1, "length": 4, "variations": ["boule noire"]}, "méchant": {"file": "JDG - Le méchant.mp3", "cost": 1, "length": 4, "variations": ["le méchant"]}, "méfiez-vous": {"file": "Méfiez-vous.mp3", "cost": 2, "length": 6, "variations": ["méfiez vous"]}, "non": {"file": "Mario dit non.mp3", "cost": 1, "length": 1, "variations": ["mario non"]}, "ok": {"file": "Jacouille OK.mp3", "cost": 1, "length": 1, "variations": []}, "perlimpinpin": {"file": "C'est de la poudre de perlimpinpin.mp3", "cost": 1, "length": 1, "variations": ["macron poudre"]}, "philippe": {"file": "Philippe Je sais où tu te caches Hitman le Cobra.mp3", "cost": 2, "length": 6, "variations": []}, "power rangers": {"file": "Power Rangers.mp3", "cost": 1, "length": 5, "variations": ["power ranger"]}, "que nenni": {"file": "Ahhh que nenni.mp3", "cost": 1, "length": 1, "variations": ["nenni"]}, "quelqu'un": {"file": "Il y a quelqu'un - Non y a personne.mp3", "cost": 1, "length": 4, "variations": []}, "sad": {"file": "Sad song meme.mp3", "cost": 4, "length": 21, "variations": ["sad song"]}, "shooting stars": {"file": "Shooting Stars.mp3", "cost": 3, "length": 15, "variations": []}, "souffrir": {"file": "Je suis pas venue ici pour souffrir OK.mp3", "cost": 1, "length": 1, "variations": ["je suis pas venue pour souffrir ok", "je ne suis pas venue pour souffrir ok"]}, "team rocket décolle": {"file": "La team rocket décolle vers d'autres cieux.mp3", "cost": 1, "length": 5, "variations": ["team rocket s'envole"]}, "votre mari est décédé": {"file": "Palmashow - Votre mari est decédé.mp3", "cost": 2, "length": 6, "variations": []}};
         
         // Fichiers originaux pour référence
-        const originalFiles = {"moments later": "A few Moments later", "c'est bien Nils": "Ah bah c'est bien Nils, super pour l'appareil photo !", "que nenni": "Ahhh, que nenni !", "allons-y": "Allons-y Alonso", "bad joke": "Bad Joke Drum Sound", "beauf": "Beauf de France", "perlimpinpin": "C'est de la poudre de perlimpinpin", "duel": "C'est l'heure du duel", "devise team rocket": "Devise de la Team Rocket", "chute": "Dingo Chute", "déjà vu": "Deja vu", "good english": "François Hollande - Discours en anglais aux Philippines", "ghostbusters": "Ghostbusters (invisible men)", "hello": "Hello Mario", "here we go": "Here We Go !", "quelqu'un": "Il y a quelqu'un - Non y a personne", "issou": "Issou", "ok": "Jacouille OK", "david goodenough": "JDG - David Goodenough", "ils l'ont eu": "JDG - Ils l'ont eu !!!", "méchant": "JDG - Le méchant !", "bonne journée": "JDG - On va passer une bonne journée", "souffrir": "Je suis pas venue ici pour souffrir OK", "jeanne": "Jeanne au secours !! ", "team rocket décolle": "La team rocket décolle vers d'autres cieux", "le feu ça brule": "Le Feu Ça Brûle", "bye bye": "Luigi Bye bye", "mais c'est de la merde": "Mais c'est de la merde", "mais oui c'est clair": "Mais oui c'est clair !", "mais t'es pas net": "Mais t'es pas net", "mama": "Mama Mario", "mamma mia": "Mamma Mia Mario", "mange pas ça": "Mange pas ça", "non": "Mario dit non", "méfiez-vous": "Méfiez-vous", "motus": "Motus boule noire", "votre mari est décédé": "Palmashow - Votre mari est decédé", "philippe": "Philippe ! Je sais où tu te caches ! [Hitman le Cobra]", "power rangers": "Power Rangers", "lumière": "Qui a éteint la lumière", "sad": "Sad song meme", "shooting stars": "Shooting Stars", "gatouille": "Voilà il gatouille !", "grappin": "Le Grappin"};
+        const originalFiles = {"allons-y": "Allons-y Alonso", "bad joke": "Bad Joke Drum Sound", "beauf": "Beauf de France", "bonne journée": "JDG - On va passer une bonne journée", "bye bye": "Luigi Bye bye", "c'est bien Nils": "Ah bah c'est bien Nils, super pour l'appareil photo !", "chute": "Dingo Chute", "david goodenough": "JDG - David Goodenough", "devise team rocket": "Devise de la Team Rocket", "duel": "C'est l'heure du duel", "déjà vu": "Deja vu", "gatouille": "Voilà il gatouille !", "ghostbusters": "Ghostbusters (invisible men)", "good english": "François Hollande - Discours en anglais aux Philippines", "grappin": "Le Grappin", "hello": "Hello Mario", "here we go": "Here We Go !", "ils l'ont eu": "JDG - Ils l'ont eu !!!", "issou": "Issou", "jeanne": "Jeanne au secours !! ", "le feu ça brule": "Le Feu Ça Brûle", "lumière": "Qui a éteint la lumière", "mais c'est de la merde": "Mais c'est de la merde", "mais oui c'est clair": "Mais oui c'est clair !", "mais t'es pas net": "Mais t'es pas net", "mama": "Mama Mario", "mamma mia": "Mamma Mia Mario", "mange pas ça": "Mange pas ça", "moments later": "A few Moments later", "motus": "Motus boule noire", "méchant": "JDG - Le méchant !", "méfiez-vous": "Méfiez-vous", "non": "Mario dit non", "ok": "Jacouille OK", "perlimpinpin": "C'est de la poudre de perlimpinpin", "philippe": "Philippe ! Je sais où tu te caches ! [Hitman le Cobra]", "power rangers": "Power Rangers", "que nenni": "Ahhh, que nenni !", "quelqu'un": "Il y a quelqu'un - Non y a personne", "sad": "Sad song meme", "shooting stars": "Shooting Stars", "souffrir": "Je suis pas venue ici pour souffrir OK", "team rocket décolle": "La team rocket décolle vers d'autres cieux", "votre mari est décédé": "Palmashow - Votre mari est decédé"};
         
         const costConfig = {"1": {"cost_text": "100 fragments du bonheur", "image": "fragments.png", "color": "#4CAF50"}, "2": {"cost_text": "250 fragments du bonheur", "image": "fragments.png", "color": "#2196F3"}, "3": {"cost_text": "500 fragments du bonheur", "image": "fragments.png", "color": "#FF9800"}, "4": {"cost_text": "1000 fragments du bonheur", "image": "fragments.png", "color": "#F44336"}};
         const audioFolder = "./audio";
         
         let currentCostFilter = 'all';
+        let currentSort = 'alphabetical';
         let currentAudio = null;
         let allSounds = [];
         let debugLog = [];
@@ -510,8 +551,10 @@
             initCostTabs();
             renderAllSounds();
             setupAudioPlayer();
+            updateSortButtons();
             logDebug(`✅ Page chargée avec ${Object.keys(soundsData).length} sons`);
             logDebug(`📁 Dossier audio: ${audioFolder}`);
+            logDebug(`🔤 Tri initial: alphabétique`);
         });
         
         function initCostTabs() {
@@ -547,13 +590,49 @@
             renderSounds();
         }
         
+        function sortSounds(sortType) {
+            if (currentSort === sortType) return;
+            
+            currentSort = sortType;
+            updateSortButtons();
+            renderSounds();
+            
+            const sortName = sortType === 'alphabetical' ? 'alphabétique' : 'par coût';
+            logDebug(`🔤 Tri modifié: ${sortName}`);
+        }
+        
+        function updateSortButtons() {
+            document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.sort-btn[onclick*="${currentSort}"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+        
+        function getAllSoundsSorted() {
+            // Convertir soundsData en tableau pour le tri
+            let soundsArray = Object.entries(soundsData).map(([key, data]) => ({ key, data }));
+            
+            if (currentSort === 'alphabetical') {
+                // Tri alphabétique
+                soundsArray.sort((a, b) => a.key.localeCompare(b.key, 'fr', { sensitivity: 'base' }));
+            } else if (currentSort === 'cost') {
+                // Tri par coût (puis alphabétique pour les mêmes coûts)
+                soundsArray.sort((a, b) => {
+                    if (a.data.cost !== b.data.cost) {
+                        return a.data.cost - b.data.cost;
+                    }
+                    return a.key.localeCompare(b.key, 'fr', { sensitivity: 'base' });
+                });
+            }
+            
+            return soundsArray;
+        }
+        
         function renderAllSounds() {
-            allSounds = [];
+            allSounds = getAllSoundsSorted();
             const container = document.getElementById('soundsContainer');
             container.innerHTML = '';
             
-            Object.entries(soundsData).forEach(([key, data]) => {
-                allSounds.push({key, data});
+            allSounds.forEach(({key, data}) => {
                 const card = createSoundCard(key, data);
                 container.appendChild(card);
             });
@@ -611,7 +690,9 @@
             
             let hasVisibleSounds = false;
             
-            allSounds.forEach(({key, data}) => {
+            const sortedSounds = getAllSoundsSorted();
+            
+            sortedSounds.forEach(({key, data}) => {
                 const cost = data.cost || 1;
                 
                 if (currentCostFilter !== 'all' && currentCostFilter !== cost.toString()) {
@@ -628,7 +709,7 @@
                 noResults.className = 'no-results';
                 noResults.innerHTML = `
                     <h3>Aucune récompense trouvée</h3>
-                    <p>Essayez de modifier vos filtres.</p>
+                    <p>Essayez de modifier vos filtres ou votre tri.</p>
                 `;
                 container.appendChild(noResults);
             }
@@ -814,6 +895,7 @@
         window.playSound = playSound;
         window.copyName = copyName;
         window.filterByCost = filterByCost;
+        window.sortSounds = sortSounds;
         window.toggleDebug = toggleDebug;
         window.logDebug = logDebug;
     </script>
