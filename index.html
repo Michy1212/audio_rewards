@@ -154,15 +154,33 @@
             border-radius: 15px;
             padding: 25px;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.1);
             display: flex;
             flex-direction: column;
+            position: relative;
         }
         
         .sound-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.4);
             border-color: var(--primary-color);
+        }
+        
+        /* Contours colorés selon le coût */
+        .sound-card.cost-1 {
+            border-color: rgba(76, 175, 80, 0.3);
+        }
+        
+        .sound-card.cost-2 {
+            border-color: rgba(33, 150, 243, 0.3);
+        }
+        
+        .sound-card.cost-3 {
+            border-color: rgba(255, 152, 0, 0.3);
+        }
+        
+        .sound-card.cost-4 {
+            border-color: rgba(244, 67, 54, 0.3);
         }
         
         .sound-name {
@@ -271,6 +289,8 @@
         .btn-copy {
             background-color: rgba(255,255,255,0.1);
             color: white;
+            position: relative;
+            overflow: hidden;
         }
         
         .btn-copy:hover {
@@ -280,6 +300,36 @@
         
         .btn-copy.copied {
             background-color: var(--success-color);
+            animation: copySuccess 0.5s ease-in-out;
+        }
+        
+        /* Animation de copie */
+        @keyframes copySuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Animation de feedback de copie */
+        .copy-feedback {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: var(--success-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 10;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-feedback.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
         }
         
         footer {
@@ -374,6 +424,17 @@
             cursor: pointer;
             z-index: 1001;
         }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
+        
+        .no-results h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -393,6 +454,7 @@
                 <li>Utilisez vos <strong>fragments du bonheur</strong> pour déclencher les sons</li>
                 <li>Cliquez sur <strong>"Écouter"</strong> pour tester un son</li>
                 <li>Cliquez sur <strong>"Copier le nom"</strong> pour copier le nom de la récompense</li>
+                <li>Le <strong>contour coloré</strong> indique le coût en fragments</li>
             </ul>
         </div>
         
@@ -403,7 +465,7 @@
         <footer>
             <p>© 2026 Le Retroscope</p>
             <div class="generation-date">
-                Généré le 19/01/2026 à 19:00
+                Généré le 19/01/2026 à 19:08
             </div>
         </footer>
     </div>
@@ -503,6 +565,8 @@
             const variations = data.variations || [];
             
             const card = document.createElement('div');
+            card.className = `sound-card cost-${cost}`;
+            card.id = `sound-${key.replace(/[^a-zA-Z0-9]/g, '-')}`;
             
             const variationsHtml = variations.length > 0 
                 ? `
@@ -533,6 +597,7 @@
                     </button>
                     <button class="btn btn-copy" onclick="copyName('${key}')">
                         <i class="far fa-copy"></i> Copier le nom
+                        <div class="copy-feedback">Copié !</div>
                     </button>
                 </div>
             `;
@@ -690,9 +755,18 @@
         function copyName(soundKey) {
             const name = `${soundKey}`;
             
+            // Récupérer le bouton et son feedback
+            const safeSoundId = soundKey.replace(/[^a-zA-Z0-9]/g, '-');
+            const button = document.querySelector(`#sound-${safeSoundId} .btn-copy`);
+            const feedback = button.querySelector('.copy-feedback');
+            
+            // Montrer l'animation de feedback
+            button.classList.add('copied');
+            feedback.classList.add('show');
+            
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(name).then(() => {
-                    showCopyFeedback(soundKey);
+                    logDebug(`✅ Copié: ${soundKey}`);
                 }).catch(err => {
                     logDebug('Erreur Clipboard API: ' + err);
                     fallbackCopyText(name, soundKey);
@@ -700,6 +774,12 @@
             } else {
                 fallbackCopyText(name, soundKey);
             }
+            
+            // Cacher le feedback après 2 secondes
+            setTimeout(() => {
+                button.classList.remove('copied');
+                feedback.classList.remove('show');
+            }, 2000);
         }
         
         function fallbackCopyText(text, soundKey) {
@@ -717,8 +797,9 @@
             try {
                 const successful = document.execCommand('copy');
                 if (successful) {
-                    showCopyFeedback(soundKey);
+                    logDebug(`✅ Copié (fallback): ${soundKey}`);
                 } else {
+                    logDebug(`❌ Échec copie fallback: ${soundKey}`);
                     prompt('Copiez manuellement:', text);
                 }
             } catch (err) {
@@ -727,23 +808,6 @@
             }
             
             document.body.removeChild(textArea);
-        }
-        
-        function showCopyFeedback(soundKey) {
-            const safeSoundId = soundKey.replace(/[^a-zA-Z0-9]/g, '-');
-            const button = document.querySelector(`#sound-${safeSoundId} .btn-copy`);
-            if (!button) return;
-            
-            const originalText = button.innerHTML;
-            const originalClass = button.className;
-            
-            button.innerHTML = '<i class="fas fa-check"></i> Copié !';
-            button.className = originalClass + ' copied';
-            
-            setTimeout(() => {
-                button.innerHTML = originalText;
-                button.className = originalClass;
-            }, 2000);
         }
         
         // Exposer les fonctions
