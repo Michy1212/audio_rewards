@@ -50,14 +50,6 @@
             overflow: hidden;
         }
         
-        .header-decoration {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            opacity: 0.3;
-            font-size: 3rem;
-        }
-        
         h1 {
             font-size: 2.8rem;
             margin-bottom: 10px;
@@ -376,23 +368,6 @@
             display: none;
         }
         
-        /* Style pour le compteur de résultats */
-        .results-count {
-            text-align: center;
-            margin: 10px 0 20px 0;
-            color: #aaa;
-            font-style: italic;
-        }
-        
-        /* Style pour aucun résultat */
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            color: #aaa;
-            font-size: 1.2rem;
-            grid-column: 1 / -1;
-        }
-        
         /* Note importante */
         .important-note {
             background-color: rgba(255, 193, 7, 0.1);
@@ -409,14 +384,22 @@
             align-items: center;
             gap: 10px;
         }
+        
+        /* Message de débogage */
+        .debug-info {
+            background-color: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="header-decoration">
-                <i class="fas fa-music"></i>
-            </div>
             <h1><i class="fas fa-music"></i> Récompenses Audio</h1>
             <p>Sons disponibles avec vos fragments du bonheur</p>
             <a href="https://twitch.tv/leretroscope" class="channel-link" target="_blank">
@@ -453,7 +436,7 @@
             <p>© 2026 Le Retroscope - Tous droits réservés</p>
             <p>Les sons sont la propriété de leurs auteurs respectifs.</p>
             <div class="generation-date">
-                Généré le 19/01/2026 à 18:21
+                Généré le 19/01/2026 à 18:32
             </div>
         </footer>
     </div>
@@ -468,8 +451,8 @@
         // Configuration des coûts
         const costConfig = {"1": {"cost_text": "100 fragments du bonheur", "image": "fragments.png", "color": "#4CAF50"}, "2": {"cost_text": "250 fragments du bonheur", "image": "fragments.png", "color": "#2196F3"}, "3": {"cost_text": "500 fragments du bonheur", "image": "fragments.png", "color": "#FF9800"}, "4": {"cost_text": "1000 fragments du bonheur", "image": "fragments.png", "color": "#F44336"}};
         
-        // Dossier audio
-        const audioFolder = "audio";
+        // Dossier audio pour GitHub Pages (chemin relatif)
+        const audioFolder = "./audio";
         
         // État de l'application
         let currentCostFilter = 'all';
@@ -481,6 +464,8 @@
             initCostTabs();
             renderAllSounds();
             setupAudioPlayer();
+            console.log('✅ Page chargée avec', Object.keys(soundsData).length, 'sons');
+            console.log('📁 Dossier audio:', audioFolder);
         });
         
         // Initialiser les onglets de coût
@@ -525,7 +510,7 @@
             renderSounds();
         }
         
-        // Afficher tous les sons (pour initialisation)
+        // Afficher tous les sons
         function renderAllSounds() {
             allSounds = [];
             const container = document.getElementById('soundsContainer');
@@ -573,10 +558,10 @@
                     ${variationsHtml}
                 </div>
                 <div class="buttons">
-                    <button class="btn btn-play" onclick="playSound('${key}')">
+                    <button class="btn btn-play" onclick="playSound('${key}')" title="Écouter le son">
                         <i class="fas fa-play"></i> Écouter
                     </button>
-                    <button class="btn btn-copy" onclick="copyName('${key}')" data-sound-name="${key}">
+                    <button class="btn btn-copy" onclick="copyName('${key}')" title="Copier le nom de la récompense">
                         <i class="far fa-copy"></i> Copier le nom
                     </button>
                 </div>
@@ -595,7 +580,6 @@
             allSounds.forEach(({key, data}) => {
                 const cost = data.cost || 1;
                 
-                // Filtrer par coût si nécessaire
                 if (currentCostFilter !== 'all' && currentCostFilter !== cost.toString()) {
                     return;
                 }
@@ -605,7 +589,6 @@
                 hasVisibleSounds = true;
             });
             
-            // Afficher un message si aucun résultat
             if (!hasVisibleSounds) {
                 const noResults = document.createElement('div');
                 noResults.className = 'no-results';
@@ -623,12 +606,10 @@
             currentAudio = document.getElementById('globalAudioPlayer');
             
             currentAudio.addEventListener('play', function() {
-                // Arrêter l'animation sur toutes les cartes
                 document.querySelectorAll('.sound-card').forEach(card => {
                     card.classList.remove('playing');
                 });
                 
-                // Démarrer l'animation sur la carte actuelle
                 const currentSound = currentAudio.getAttribute('data-current-sound');
                 if (currentSound) {
                     const safeSoundId = currentSound.replace(/[^a-zA-Z0-9]/g, '-');
@@ -638,7 +619,6 @@
             });
             
             currentAudio.addEventListener('ended', function() {
-                // Arrêter l'animation
                 const currentSound = currentAudio.getAttribute('data-current-sound');
                 if (currentSound) {
                     const safeSoundId = currentSound.replace(/[^a-zA-Z0-9]/g, '-');
@@ -648,18 +628,25 @@
             });
         }
         
-        // Jouer un son
+        // Jouer un son - Version optimisée pour GitHub Pages
         function playSound(soundKey) {
-            if (!soundsData[soundKey]) return;
+            if (!soundsData[soundKey]) {
+                console.error('Son non trouvé:', soundKey);
+                return;
+            }
             
-            // Construire le chemin du fichier
             const fileName = soundsData[soundKey].file;
-            // Nettoyer le nom de fichier pour l'URL
-            const cleanFileName = encodeURIComponent(fileName);
-            // Utiliser le chemin relatif
-            const audioPath = `${audioFolder}/${cleanFileName}`;
             
-            console.log('Tentative de lecture:', audioPath);
+            // Nettoyer le nom de fichier pour l'URL
+            let cleanFileName = fileName;
+            // Remplacer les espaces par %20 pour les URLs
+            cleanFileName = cleanFileName.replace(/ /g, '%20');
+            // Échapper les autres caractères spéciaux
+            cleanFileName = encodeURIComponent(cleanFileName);
+            
+            // Construire le chemin complet
+            const audioPath = `${audioFolder}${cleanFileName}`;
+            console.log('🎵 Tentative de lecture:', audioPath);
             
             // Arrêter le son en cours
             if (currentAudio) {
@@ -667,50 +654,51 @@
                 currentAudio.currentTime = 0;
             }
             
-            // Jouer le nouveau son
-            currentAudio.src = audioPath;
-            currentAudio.setAttribute('data-current-sound', soundKey);
+            // Essayer différentes extensions
+            const tryExtensions = (extensions, index = 0) => {
+                if (index >= extensions.length) {
+                    console.error('❌ Toutes les extensions échouées pour:', fileName);
+                    alert(`Impossible de lire le fichier audio:\n${fileName}\n\nAssurez-vous que le fichier existe dans le dossier "${audioFolder}".`);
+                    return;
+                }
+                
+                const ext = extensions[index];
+                const testPath = ext ? `${audioPath}${ext}` : audioPath;
+                
+                console.log(`  Essai ${index + 1}/${extensions.length}:`, testPath);
+                
+                currentAudio.src = testPath;
+                currentAudio.setAttribute('data-current-sound', soundKey);
+                
+                currentAudio.play().then(() => {
+                    console.log('✅ Lecture démarrée:', testPath);
+                }).catch(err => {
+                    console.log(`  Échec avec ${ext}:`, err.message);
+                    tryExtensions(extensions, index + 1);
+                });
+            };
             
-            currentAudio.play().catch(e => {
-                console.error("Erreur de lecture audio:", e);
-                
-                // Essayer avec différentes extensions
-                const extensions = ['.mp3', '.wav', '.ogg', '.m4a', ''];
-                
-                const tryNextExtension = (index) => {
-                    if (index >= extensions.length) {
-                        alert(`Impossible de lire le fichier audio.\n\nFichier recherché: ${fileName}\nDossier: ${audioFolder}`);
-                        return;
-                    }
-                    
-                    const ext = extensions[index];
-                    const newPath = `${audioFolder}/${cleanFileName}${ext}`;
-                    console.log('Essai avec extension:', ext, '->', newPath);
-                    
-                    currentAudio.src = newPath;
-                    currentAudio.play().catch(() => {
-                        tryNextExtension(index + 1);
-                    });
-                };
-                
-                tryNextExtension(0);
-            });
+            // Essayer différentes extensions
+            const extensions = ['', '.mp3', '.MP3', '.wav', '.WAV', '.ogg', '.m4a'];
+            tryExtensions(extensions);
         }
         
-        // Copier le nom de la récompense
+        // Copier le nom de la récompense - Version robuste pour HTTPS
         function copyName(soundKey) {
             const name = `${soundKey}`;
+            console.log('📋 Tentative de copie:', name);
             
             // Méthode moderne avec Clipboard API
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(name).then(() => {
                     showCopyFeedback(soundKey);
+                    console.log('✅ Copié avec Clipboard API');
                 }).catch(err => {
-                    console.error('Erreur Clipboard API:', err);
+                    console.error('❌ Erreur Clipboard API:', err);
                     fallbackCopyText(name, soundKey);
                 });
             } else {
-                // Fallback pour les anciens navigateurs
+                // Fallback pour HTTP ou anciens navigateurs
                 fallbackCopyText(name, soundKey);
             }
         }
@@ -719,9 +707,13 @@
         function fallbackCopyText(text, soundKey) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
+            
+            // Style pour être invisible
             textArea.style.position = 'fixed';
             textArea.style.left = '-999999px';
             textArea.style.top = '-999999px';
+            textArea.style.opacity = '0';
+            
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
@@ -730,12 +722,14 @@
                 const successful = document.execCommand('copy');
                 if (successful) {
                     showCopyFeedback(soundKey);
+                    console.log('✅ Copié avec fallback');
                 } else {
-                    alert("Impossible de copier. Veuillez copier manuellement: " + text);
+                    console.error('❌ execCommand a échoué');
+                    prompt('Copiez manuellement le texte:', text);
                 }
             } catch (err) {
-                console.error('Erreur fallback copy:', err);
-                alert("Impossible de copier. Veuillez copier manuellement: " + text);
+                console.error('❌ Erreur execCommand:', err);
+                prompt('Copiez manuellement le texte:', text);
             }
             
             document.body.removeChild(textArea);
@@ -759,7 +753,12 @@
             }, 2000);
         }
         
-        // Exposer les fonctions globalement pour le HTML
+        // Gestion des erreurs globales
+        window.addEventListener('error', function(e) {
+            console.error('❌ Erreur globale:', e.message, 'dans', e.filename, 'ligne', e.lineno);
+        });
+        
+        // Exposer les fonctions globalement
         window.playSound = playSound;
         window.copyName = copyName;
         window.filterByCost = filterByCost;
