@@ -8,21 +8,21 @@
 	},
 	"c'est bien Nils": {
 		"source" : "Ah bah c'est bien Nils",
-		"file" : "Ah bah c'est bien Nils, super pour l'appareil photo !",
+		"file" : "Ah bah c est bien Nils super pour l appareil photo",
 		"length" : 3,
 		"cost" : 1,
 		"variations" : ["Nils"]
 	},
 	"que nenni": {
 		"source" : "Ahhh, que nenni",
-		"file" : "Ahhh, que nenni !",
+		"file" : "Ahhh que nenni",
 		"length" : 1,
 		"cost" : 1,
 		"variations" : ["nenni"]
 	},
 	"allons-y": {
 		"source" : "Allons-y Alonso",
-		"file" : "Allons-y Alonso",
+		"file" : "Allons y Alonso",
 		"length" : 1,
 		"cost" : 1,
 		"variations" : ["alonso", "allons y"]
@@ -42,14 +42,14 @@
 	},
 	"perlimpinpin": {
 		"source" : "C'est de la poudre de perlimpinpin",
-		"file" : "C'est de la poudre de perlimpinpin",
+		"file" : "C est de la poudre de perlimpinpin",
 		"length" : 1,
 		"cost" : 1,
 		"variations" : ["macron poudre"]
 	},
 	"duel": {
 		"source" : "C'est l'heure du duel",
-		"file" : "C'est l'heure du duel",
+		"file" : "C est l heure du duel",
 		"length" : 3,
 		"cost" : 1
 	},
@@ -74,7 +74,7 @@
 	},
 	"good english": {
 		"source" : "François Hollande - Discours en anglais aux Philippines",
-		"file" : "François Hollande - Discours en anglais aux Philippines",
+		"file" : "François Hollande Discours en anglais aux Philippines",
 		"length" : 9,
 		"cost" : 2,
 		"variations" : ["hollande"]
@@ -95,14 +95,14 @@
 	},
 	"here we go": {
 		"source" : "Here We Go !",
-		"file" : "Here We Go !",
+		"file" : "Here We Go",
 		"length" : 1,
 		"cost" : 1,
 		"variations" : ["here we go mario"]
 	},
 	"quelqu'un": {
 		"source" : "Il y a quelqu'un - Non y a personne",
-		"file" : "Il y a quelqu'un - Non y a personne",
+		"file" : "Il y a quelqu un Non y a personne",
 		"length" : 4,
 		"cost" : 1
 	},
@@ -121,27 +121,27 @@
 	},
 	"david goodenough": {
 		"source" : "JDG - David Goodenough",
-		"file" : "JDG - David Goodenough",
+		"file" : "JDG David Goodenough",
 		"length" : 6,
 		"cost" : 2,
 		"variations" : ["goodenough", "c'est pas si mal"]
 	},
 	"ils l'ont eu": {
 		"source" : "JDG - Ils l'ont eu !!!",
-		"file" : "JDG - Ils l'ont eu !!!",
+		"file" : "JDG Ils l ont eu",
 		"length" : 12,
 		"cost" : 3
 	},
 	"méchant": {
 		"source" : "JDG - Le méchant !",
-		"file" : "JDG - Le méchant !",
+		"file" : "JDG Le méchant",
 		"length" : 4,
 		"cost" : 1,
 		"variations" : ["le méchant"]
 	},
 	"bonne journée": {
 		"source" : "JDG - On va passer une bonne journée",
-		"file" : "JDG - On va passer une bonne journée",
+		"file" : "JDG On va passer une bonne journée",
 		"length" : 4,
 		"cost" : 1,
 		"variations" : ["on va passer une bonne journée"]
@@ -155,14 +155,14 @@
 	},
 	"jeanne": {
 		"source" : "Jeanne au secours !! ",
-		"file" : "Jeanne au secours !! ",
+		"file" : "Jeanne au secours",
 		"length" : 3,
 		"cost" : 1,
 		"variations" : ["au secours", "jeanne au secours"]
 	},
 	"team rocket décolle": {
 		"source" : "La team rocket décolle vers d'autres cieux",
-		"file" : "La team rocket décolle vers d'autres cieux",
+		"file" : "La team rocket décolle vers d autres cieux",
 		"length" : 5,
 		"cost" : 1,
 		"variations" : ["team rocket s'envole"]
@@ -183,21 +183,21 @@
 	},
 	"mais c'est de la merde": {
 		"source" : "Mais c'est de la merde",
-		"file" : "Mais c'est de la merde",
+		"file" : "Mais c est de la merde",
 		"length" : 2,
 		"cost" : 1,
 		"variations" : ["c'est de la merde"]
 	},
 	"mais oui c'est clair": {
 		"source" : "Mais oui c'est clair !",
-		"file" : "Mais oui c'est clair !",
+		"file" : "Mais oui c est clair",
 		"length" : 1,
 		"cost" : 1,
 		"variations" : ["c'est clair"]
 	},
 	"mais t'es pas net": {
 		"source" : "Mais t'es pas net",
-		"file" : "Mais t'es pas net",
+		"file" : "Mais t es pas net",
 		"length" : 3,
 		"cost" : 1,
 		"variations" : ["pas net"]
@@ -231,7 +231,7 @@
 	},
 	"méfiez-vous": {
 		"source" : "Méfiez-vous",
-		"file" : "Méfiez-vous",
+		"file" : "Méfiez vous",
 		"length" : 6,
 		"cost" : 2,
 		"variations" : ["méfiez vous"]
@@ -245,13 +245,13 @@
 	},
 	"votre mari est décédé": {
 		"source" : "Palmashow - Votre mari est decédé",
-		"file" : "Palmashow - Votre mari est decédé",
+		"file" : "Palmashow Votre mari est decédé",
 		"length" : 6,
 		"cost" : 2
 	},
 	"philippe": {
 		"source" : "Philippe ! Je sais où tu te caches ! [Hitman le Cobra]",
-		"file" : "Philippe ! Je sais où tu te caches ! [Hitman le Cobra]",
+		"file" : "Philippe Je sais où tu te caches Hitman le Cobra",
 		"length" : 6,
 		"cost" : 2
 	},
@@ -284,7 +284,7 @@
 	},
 	"gatouille": {
 		"source" : "Voilà il gatouille !",
-		"file" : "Voilà il gatouille !",
+		"file" : "Voilà il gatouille",
 		"length" : 1,
 		"cost" : 1,
 		"variations" : ["voilà il gatouille"]
@@ -294,6 +294,12 @@
 		"file" : "Le Grappin",
 		"length" : 8,
 		"cost" : 2
+	},
+	"trap": {
+		"source" : "It's a Trap",
+		"file" : "It s a Trap",
+		"length" : 1,
+		"cost" : 1
 	}
 }
 		
