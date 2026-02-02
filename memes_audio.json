@@ -307,6 +307,13 @@
 		"length" : 10,
 		"cost" : 2,
 		"variations" : ["ganondorf suavemente", "terminal montage suavemente"]
+	},
+	"babies": {
+		"source" : "Mario Babies",
+		"file" : "Mario Babies",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["mario babies"]
 	}
 }
 		
