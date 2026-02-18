@@ -314,6 +314,34 @@
 		"length" : 1,
 		"cost" : 1,
 		"variations" : ["mario babies"]
+	},
+	"délinquant": {
+		"source" : "Délinquant",
+		"file" : "Tu es un délinquant",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["Tu es un délinquant"]
+	},
+	"un petit tour": {
+		"source" : "Un petit tour",
+		"file" : "Un petit tour",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["petit tour"]
+	},
+	"grosse bête": {
+		"source" : "Grosse bête",
+		"file" : "J'ai vu une grosse bête",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["J'ai vu une grosse bête"]
+	},
+	"le docteur ment": {
+		"source" : "Le Docteur ment",
+		"file" : "Le Docteur ment",
+		"length" : 2,
+		"cost" : 1,
+		"variations" : ["règle numéro 1"]
 	}
 }
 		
