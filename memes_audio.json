@@ -342,6 +342,13 @@
 		"length" : 2,
 		"cost" : 1,
 		"variations" : ["règle numéro 1"]
+	},
+	"britney": {
+		"source" : "It's Britney bitch",
+		"file" : "It's Britney bitch",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["britney bitch", "it's britney bitch"]
 	}
 }
 		
