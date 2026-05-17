@@ -202,12 +202,12 @@
 		"cost" : 1,
 		"variations" : ["pas net"]
 	},
-	"mama": {
-		"source" : "Mama Mario",
-		"file" : "Mama Mario",
+	"mamma": {
+		"source" : "Mamma Mario",
+		"file" : "Mamma Mario",
 		"length" : 4,
 		"cost" : 1,
-		"variations" : ["mama mario"]
+		"variations" : ["mamma mario"]
 	},
 	"mamma mia": {
 		"source" : "Mamma Mia Mario",
