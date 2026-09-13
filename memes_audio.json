@@ -349,6 +349,46 @@
 		"length" : 1,
 		"cost" : 1,
 		"variations" : ["britney bitch", "it's britney bitch"]
+	},
+	"souplette": {
+		"source" : "La Bonne Souplette",
+		"file" : "La Bonne Souplette",
+		"length" : 2,
+		"cost" : 1,
+		"variations" : ["la bonne souplette"]
+	},
+	"Crash TNT": {
+		"source" : "Crash - TNT",
+		"file" : "Crash - TNT",
+		"length" : 6,
+		"cost" : 1,
+		"variations" : ["TNT"]
+	},
+	"Crash Whoa": {
+		"source" : "Crash - Whoa",
+		"file" : "Crash - Whoa",
+		"length" : 1,
+		"cost" : 1,
+		"variations" : ["Whoa"]
+	},
+	"Nice Shot": {
+		"source" : "Nice Shot",
+		"file" : "Nice Shot",
+		"length" : 1,
+		"cost" : 1
+	},
+	"Sonic Eau": {
+		"source" : "Sonic - Eau",
+		"file" : "Sonic - Eau",
+		"length" : 11,
+		"cost" : 3,
+		"variations" : ["Sonic coule"]
+	},
+	"Yoshi Aïe": {
+		"source" : "Yoshi - Aïe",
+		"file" : "Yoshi - Aïe",
+		"length" : 1,
+		"cost" : 1
 	}
 }
 		
